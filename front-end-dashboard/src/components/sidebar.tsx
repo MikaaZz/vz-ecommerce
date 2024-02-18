@@ -49,7 +49,7 @@ export function Sidebar() {
               className={
                 pathname === '/orders' ? itemsStyle.active : itemsStyle.disabled
               }
-              href="orders"
+              href="/orders"
             >
               <ShoppingCartIcon className="h-4 w-4" />
               Orders
@@ -60,7 +60,7 @@ export function Sidebar() {
                   ? itemsStyle.active
                   : itemsStyle.disabled
               }
-              href="products"
+              href="/products"
             >
               <PackageIcon className="h-4 w-4" />
               Products
@@ -71,7 +71,7 @@ export function Sidebar() {
                   ? itemsStyle.active
                   : itemsStyle.disabled
               }
-              href="customers"
+              href="/customers"
             >
               <UsersIcon className="h-4 w-4" />
               Customers
@@ -82,7 +82,7 @@ export function Sidebar() {
                   ? itemsStyle.active
                   : itemsStyle.disabled
               }
-              href="analytics"
+              href="/analytics"
             >
               <LineChartIcon className="h-4 w-4" />
               Analytics
@@ -93,7 +93,7 @@ export function Sidebar() {
                   ? itemsStyle.active
                   : itemsStyle.disabled
               }
-              href="settings"
+              href="/settings"
             >
               <SettingsIcon className="h-4 w-4" />
               Settings

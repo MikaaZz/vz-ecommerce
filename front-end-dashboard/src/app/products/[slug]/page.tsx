@@ -6,9 +6,8 @@ export default async function ProductsManagemente({
 }: {
   params: { slug: string };
 }) {
+  const product = await getProduct(params.slug);
   return (
-    <div>
-      <ProductForm />
-    </div>
+    <div>{product ? <ProductForm product={product} /> : <ProductForm />}</div>
   );
 }
