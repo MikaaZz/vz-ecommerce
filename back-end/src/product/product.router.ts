@@ -32,25 +32,46 @@ productRouter.get('/:id', async (request: Request, response: Response) => {
 
 // POST: Create product
 // Params: name, description, price
-productRouter.post(
-  '/',
-  body('name').isString(),
-  body('description').isString(),
-  body('price').isNumeric(),
-  async (request: Request, response: Response) => {
-    const errors = validationResult(request);
-    if (!errors.isEmpty()) {
-      return response.status(400).json({ errors: errors.array() });
-    }
-    try {
-      const req = request.body;
-      const newProduct = await ProductService.createProduct(
-        req.product,
-        req.user
-      );
-      return response.status(201).json(newProduct);
-    } catch (e: any) {
-      return response.status(500).json(e.message);
-    }
+type PostProduct = { user: { id: string }; product: ProductService.Product };
+
+productRouter.post('/', async (request: Request, response: Response) => {
+  const errors = validationResult(request);
+  if (!errors.isEmpty()) {
+    return response.status(400).json({ errors: errors.array() });
   }
-);
+  try {
+    const { user, product }: PostProduct = request.body;
+    const newProduct = await ProductService.createProduct({
+      product: product,
+      userId: parseInt(user.id),
+    });
+    return response.status(201).json(newProduct);
+  } catch (e: any) {
+    return response.status(500).json(e.message);
+  }
+});
+
+// PUT: Update product
+// Params: name, description, price
+productRouter.put('/:id', async (request: Request, response: Response) => {
+  try {
+    const id: number = parseInt(request.params.id, 10);
+    const product: ProductService.Product = request.body;
+
+    const updatedProduct = await ProductService.updateProduct({ id, product });
+
+    return response.status(200).json(updatedProduct);
+  } catch (e: any) {
+    return response.status(500).json(e.message);
+  }
+});
+
+productRouter.delete('/:id', async (request: Request, response: Response) => {
+  const id: number = parseInt(request.params.id, 10);
+  try {
+    await ProductService.deleteProduct(id);
+    return response.status(204).json('Product has been succesfully deleted');
+  } catch (e: any) {
+    return response.status(500).json(e.message);
+  }
+});

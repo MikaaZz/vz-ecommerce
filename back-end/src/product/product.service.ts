@@ -31,15 +31,20 @@ export const getProduct = async (id: number): Promise<Product | null> => {
   }
 };
 
-export const createProduct = async (
-  product: Omit<Product, 'id'>,
-  userId: number
-): Promise<Product> => {
+export const createProduct = async ({
+  product,
+  userId,
+}: {
+  product: Omit<Product, 'id'>;
+  userId: number;
+}): Promise<Product> => {
   try {
     return await db.product.create({
       include: { user: true },
       data: {
-        ...product,
+        name: product.name,
+        description: product.description,
+        price: product.price,
         userId: userId,
       },
     });
@@ -48,12 +53,22 @@ export const createProduct = async (
   }
 };
 
-export const updateProduct = async (
-  product: Omit<Product, 'id'>,
-  id: number
-): Promise<Product> => {
+export const updateProduct = async ({
+  product,
+  id,
+}: {
+  id: number;
+  product: Omit<Product, 'id'>;
+}): Promise<Product> => {
   try {
-    return await db.product.update({ where: { id }, data: { ...product } });
+    return await db.product.update({
+      where: { id: id },
+      data: {
+        name: product.name,
+        description: product.description,
+        price: product.price,
+      },
+    });
   } catch (e) {
     throw Error(`Error in update product in API: ${e}`);
   }
