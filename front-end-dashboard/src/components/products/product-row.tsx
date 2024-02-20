@@ -1,7 +1,9 @@
-import Image from 'next/image';
-import { TableCell, TableRow } from '../ui/table';
 import Link from 'next/link';
+import Image from 'next/image';
+
 import { Button } from '../ui/button';
+import { TableCell, TableRow } from '../ui/table';
+
 import { Product } from '@/@types';
 
 export function ProductRow(product: Product) {
@@ -21,12 +23,16 @@ export function ProductRow(product: Product) {
         {product.description}
       </TableCell>
       <TableCell>R$ {product.price}</TableCell>
-      <TableCell>
+      <TableCell className="flex items-center gap-2 justify-end">
         <Link href={`/products/${product.id}`}>
           <Button className="ml-auto" size="sm">
             Edit
           </Button>
         </Link>
+
+        <Button className=" bg-red-800" size="sm" disabled>
+          Delete
+        </Button>
       </TableCell>
     </TableRow>
   );
